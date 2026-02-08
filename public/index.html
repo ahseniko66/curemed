@@ -1206,7 +1206,6 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         updateUserDisplay();
-        // Don't call initGoogleMap here - it will be called by the Google Maps API callback
         if (userToken) {
             loadAppointments();
         }
@@ -1225,7 +1224,6 @@
         });
     });
 
-    // FIXED: Fixed the updateUserDisplay function to remove reference to non-existent infoCard
     function updateUserDisplay() {
         const loginBtn = document.getElementById('login-btn');
         const loggedInUser = document.getElementById('logged-in-user');
@@ -1244,7 +1242,6 @@
         }
     }
 
-    // FIXED: Updated Google Maps initialization with fallback
     function initGoogleMap() {
         if (typeof google === 'undefined') {
             console.error('Google Maps API failed to load');
@@ -1256,7 +1253,6 @@
         }
         
         try {
-            // Center of Astana
             const astana = { lat: 51.1694, lng: 71.4491 };
             
             map = new google.maps.Map(document.getElementById("map"), {
@@ -1276,10 +1272,8 @@
 
             mapInitialized = true;
 
-            // Hide placeholder when map loads successfully
             document.getElementById('map-placeholder').style.display = 'none';
 
-            // Example Marker for a Hospital - Using HTTPS URL to avoid mixed content
             new google.maps.Marker({
                 position: { lat: 51.1283, lng: 71.4305 },
                 map: map,
@@ -1289,7 +1283,6 @@
                 }
             });
 
-            // Add a default marker for Astana medical district - Using HTTPS URL
             new google.maps.Marker({
                 position: astana,
                 map: map,
@@ -1749,10 +1742,6 @@
     window.viewAppointment = viewAppointment;
 
 </script>
-<!-- IMPORTANT: You need to fix your Google Maps API key settings -->
-<!-- 1. Go to https://console.cloud.google.com/ -->
-<!-- 2. Add your domain (curemed-backend.onrender.com) to the authorized domains -->
-<!-- 3. Enable the Maps JavaScript API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvo8-Lfuzl8OUvbopQaLwiveBMQrdgPj8&loading=async&callback=initGoogleMap" async defer></script>
 </body>
 </html>
