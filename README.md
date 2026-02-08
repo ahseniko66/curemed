@@ -30,11 +30,15 @@ CureMed is a  web application designed to assist residents of Astana in finding 
 ### Installation Steps
 1. **Clone the repository:** git clone https://github.com/ahseniko66/curemed.git
 2. **Install dependencies:** npm install
-3. **Create a .env file in the root directory and add:** 
+3. **Create a .env file in the root directory and add:**
+   
 PORT=3000 
-MONGO_URI=mongodb+srv://sena:sena12345@curaroute.wg7mgoy.mongodb.net/curaroute 
-JWT_SECRET=sena123
-GOOGLE_MAPS_API_KEY=AIzaSyBvo8-Lfuzl8OUvbopQaLwiveBMQrdgPj8
+
+MONGO_URI=your_secret_key_mongo
+
+JWT_SECRET=your_secret_key
+
+GOOGLE_MAPS_API_KEY=your_secret_key
 
 ### Executing the Program
 1. **Start the server:** node server.js
