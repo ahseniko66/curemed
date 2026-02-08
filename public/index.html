@@ -1206,7 +1206,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         updateUserDisplay();
-        // initGoogleMap will be called by Google Maps API callback
+        // Don't call initGoogleMap here - it will be called by the Google Maps API callback
         if (userToken) {
             loadAppointments();
         }
@@ -1225,52 +1225,87 @@
         });
     });
 
-    // ADDED THE GOOGLE MAPS INITIALIZATION CODE HERE
+    // FIXED: Fixed the updateUserDisplay function to remove reference to non-existent infoCard
+    function updateUserDisplay() {
+        const loginBtn = document.getElementById('login-btn');
+        const loggedInUser = document.getElementById('logged-in-user');
+        const usernameDisplay = document.getElementById('username-display');
+        const statusBoardCard = document.getElementById('status-board-card');
+        
+        if (userToken && activeUser) {
+            loginBtn.style.display = 'none';
+            loggedInUser.style.display = 'flex';
+            usernameDisplay.textContent = `Welcome, ${activeUser}`;
+            statusBoardCard.style.display = 'block';
+        } else {
+            loginBtn.style.display = 'block';
+            loggedInUser.style.display = 'none';
+            statusBoardCard.style.display = 'none';
+        }
+    }
+
+    // FIXED: Updated Google Maps initialization with fallback
     function initGoogleMap() {
         if (typeof google === 'undefined') {
             console.error('Google Maps API failed to load');
             document.getElementById('map-placeholder').innerHTML = 
                 '<div style="font-size: 48px;">⚠️</div>' +
-                '<div>Map service temporarily unavailable</div>';
+                '<div>Google Maps service temporarily unavailable. Please check your API key settings.</div>' +
+                '<div style="font-size: 12px; margin-top: 10px;">Error: RefererNotAllowedMapError</div>';
             return;
         }
         
-        // Center of Astana
-        const astana = { lat: 51.1694, lng: 71.4491 };
-        
-        map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 12,
-            center: astana,
-            styles: [
-                {
-                    "featureType": "all",
-                    "elementType": "geometry.fill",
-                    "stylers": [{ "weight": "2.00" }]
+        try {
+            // Center of Astana
+            const astana = { lat: 51.1694, lng: 71.4491 };
+            
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: astana,
+                styles: [
+                    {
+                        "featureType": "all",
+                        "elementType": "geometry.fill",
+                        "stylers": [{ "weight": "2.00" }]
+                    }
+                ],
+                mapTypeControl: true,
+                streetViewControl: false,
+                fullscreenControl: true
+            });
+
+            mapInitialized = true;
+
+            // Hide placeholder when map loads successfully
+            document.getElementById('map-placeholder').style.display = 'none';
+
+            // Example Marker for a Hospital - Using HTTPS URL to avoid mixed content
+            new google.maps.Marker({
+                position: { lat: 51.1283, lng: 71.4305 },
+                map: map,
+                title: "City Hospital #1",
+                icon: {
+                    url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
                 }
-            ],
-            mapTypeControl: true,
-            streetViewControl: false,
-            fullscreenControl: true
-        });
+            });
 
-        mapInitialized = true;
-
-        // Example Marker for a Hospital
-        new google.maps.Marker({
-            position: { lat: 51.1283, lng: 71.4305 },
-            map: map,
-            title: "City Hospital #1"
-        });
-
-        // Add a default marker for Astana medical district
-        new google.maps.Marker({
-            position: astana,
-            map: map,
-            title: "Astana Medical District",
-            icon: {
-                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-            }
-        });
+            // Add a default marker for Astana medical district - Using HTTPS URL
+            new google.maps.Marker({
+                position: astana,
+                map: map,
+                title: "Astana Medical District",
+                icon: {
+                    url: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                }
+            });
+            
+        } catch (error) {
+            console.error('Map initialization error:', error);
+            document.getElementById('map-placeholder').innerHTML = 
+                '<div style="font-size: 48px;">⚠️</div>' +
+                '<div>Google Maps initialization failed.</div>' +
+                '<div style="font-size: 12px; margin-top: 10px; color: var(--cancelled);">' + error.message + '</div>';
+        }
     }
     
     function updateMap(coords, hospitalName) {
@@ -1289,7 +1324,7 @@
             title: hospitalName,
             animation: google.maps.Animation.DROP,
             icon: {
-                url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                url: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
             }
         });
         
@@ -1453,27 +1488,6 @@
             localStorage.removeItem('userId');
             updateUserDisplay();
             showAppAlert('Logged out from medical portal successfully', 'success');
-        }
-    }
-    
-    function updateUserDisplay() {
-        const loginBtn = document.getElementById('login-btn');
-        const loggedInUser = document.getElementById('logged-in-user');
-        const usernameDisplay = document.getElementById('username-display');
-        const statusBoardCard = document.getElementById('status-board-card');
-        const infoCard = document.getElementById('info-card');
-        
-        if (userToken && activeUser) {
-            loginBtn.style.display = 'none';
-            loggedInUser.style.display = 'flex';
-            usernameDisplay.textContent = `Welcome, ${activeUser}`;
-            statusBoardCard.style.display = 'block';
-            infoCard.style.display = 'none';
-        } else {
-            loginBtn.style.display = 'block';
-            loggedInUser.style.display = 'none';
-            statusBoardCard.style.display = 'none';
-            infoCard.style.display = 'block';
         }
     }
 
@@ -1735,6 +1749,10 @@
     window.viewAppointment = viewAppointment;
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvo8-Lfuzl8OUvbopQaLwiveBMQrdgPj8&callback=initGoogleMap" async defer></script>
+<!-- IMPORTANT: You need to fix your Google Maps API key settings -->
+<!-- 1. Go to https://console.cloud.google.com/ -->
+<!-- 2. Add your domain (curemed-backend.onrender.com) to the authorized domains -->
+<!-- 3. Enable the Maps JavaScript API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvo8-Lfuzl8OUvbopQaLwiveBMQrdgPj8&loading=async&callback=initGoogleMap" async defer></script>
 </body>
 </html>
