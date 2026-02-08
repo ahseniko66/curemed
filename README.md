@@ -18,6 +18,8 @@ CureMed is a  web application designed to assist residents of Astana in finding 
 - **Frontend:** HTML, CSS, JavaScript
 - **External APIs:** Google Maps JavaScript API
 
+## Deployment
+** The project was deployed using Render: ** https://curemed-backend.onrender.com/ 
 
 ## Setup and Installation Instructions
 
