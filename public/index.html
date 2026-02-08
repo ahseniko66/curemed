@@ -21,121 +21,1720 @@
             --cancelled: #c62828;
         }
         
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--light-gray); color: #263238; }
-        nav { padding: 18px 50px; background: var(--white); border-bottom: 1px solid var(--medium-gray); display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 32px; font-weight: 700; color: var(--dark-blue); letter-spacing: -0.5px; }
-        .main-content { padding: 30px 50px; max-width: 1400px; margin: 0 auto; }
-        .card { background: var(--white); padding: 30px; border-radius: 10px; margin-bottom: 25px; border: 1px solid var(--medium-gray); box-shadow: 0 2px 8px rgba(0, 40, 85, 0.08); }
-        .card h2 { margin-top: 0; color: var(--dark-blue); font-size: 22px; font-weight: 600; padding-bottom: 18px; border-bottom: 2px solid var(--light-blue); margin-bottom: 25px; }
-        input, textarea, select { width: 100%; padding: 14px 16px; margin: 10px 0; border: 1px solid var(--medium-gray); border-radius: 6px; box-sizing: border-box; }
-        .btn { background: var(--primary-blue); color: white; border: none; padding: 16px 32px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
-        .btn:hover { background: var(--dark-blue); transform: translateY(-2px); }
-        #map { height: 400px; width: 100%; border-radius: 10px; border: 1px solid var(--medium-gray); margin-top: 20px; }
+        body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            background: var(--light-gray); 
+            color: #263238; 
+        }
         
-        /* Welcome Section */
-        .welcome-section { text-align: left; padding: 80px 50px; background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%); color: white; margin-bottom: 50px; position: relative; }
-        .welcome-content { display: flex; align-items: center; justify-content: space-between; gap: 60px; max-width: 1400px; margin: 0 auto; }
-        .welcome-text { flex: 1; }
-        .welcome-image { flex: 0 0 420px; }
-        .doctor-image { width: 100%; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        #auth-modal { 
+            position: fixed; 
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 40, 85, 0.92); 
+            z-index: 1000; 
+            display: none;
+            align-items: center; 
+            justify-content: center; 
+        }
         
-        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-        .medical-badge { margin-top: 20px; padding: 20px; background: var(--light-blue); border-radius: 8px; color: var(--dark-blue); border-left: 4px solid var(--primary-blue); display: none; }
+        .btn-oval {
+            background: transparent;
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 10px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
         
-        @media (max-width: 900px) { .grid-2col { grid-template-columns: 1fr; } .welcome-content { flex-direction: column; text-align: center; } }
+        .btn-oval:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3);
+        }
+        
+        .btn-oval-logout {
+            background: var(--primary-blue);
+            color: white;
+            border: 2px solid var(--primary-blue);
+            padding: 10px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-oval-logout:hover {
+            background: var(--dark-blue);
+            border-color: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 40, 85, 0.3);
+        }
+        
+        nav { 
+            padding: 18px 50px; 
+            background: var(--white); 
+            border-bottom: 1px solid var(--medium-gray); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 32px; 
+            font-weight: 700; 
+            color: var(--dark-blue);
+            letter-spacing: -0.5px;
+        }
+        
+        .main-content { 
+            padding: 30px 50px; 
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .card { 
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px solid var(--medium-gray);
+            box-shadow: 0 2px 8px rgba(0, 40, 85, 0.08);
+        }
+        
+        .card h2 {
+            margin-top: 0;
+            color: var(--dark-blue);
+            font-size: 22px;
+            font-weight: 600;
+            padding-bottom: 18px;
+            border-bottom: 2px solid var(--light-blue);
+            margin-bottom: 25px;
+        }
+        
+        input, textarea, select { 
+            width: 100%; 
+            padding: 14px 16px; 
+            margin: 10px 0; 
+            border: 1px solid var(--medium-gray); 
+            border-radius: 6px; 
+            box-sizing: border-box; 
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            transition: border-color 0.2s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+        }
+        
+        .btn { 
+            background: var(--primary-blue); 
+            color: white; 
+            border: none; 
+            padding: 16px 32px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 16px;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            background: var(--dark-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 40, 85, 0.3);
+        }
+        
+        #map { 
+            height: 400px; 
+            width: 100%; 
+            border-radius: 6px; 
+            border: 1px solid var(--medium-gray);
+            background: var(--light-gray);
+            margin-top: 10px;
+        }
+        
+        .map-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--dark-gray);
+            font-size: 16px;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .medical-badge {
+            margin-top: 20px; 
+            padding: 20px; 
+            background: var(--light-blue); 
+            border-radius: 8px; 
+            color: var(--dark-blue);
+            border-left: 4px solid var(--primary-blue);
+            display: none;
+        }
+        
+        .medical-badge-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--dark-blue);
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .flex-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .flex-row > * {
+            flex: 1;
+        }
+        
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .welcome-section {
+            text-align: left;
+            padding: 80px 50px;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            color: white;
+            margin-bottom: 50px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,50 Q25,40 50,50 T100,50" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/><path d="M0,60 Q25,50 50,60 T100,60" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/><path d="M0,40 Q25,30 50,40 T100,40" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="none"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .welcome-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-text {
+            flex: 1;
+        }
+        
+        .welcome-image {
+            flex: 0 0 420px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .image-blend-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+        }
+        
+        .doctor-blend-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+            filter: brightness(1.1) contrast(1.1);
+            transition: transform 0.5s ease;
+        }
+        
+        .image-blend-container:hover .doctor-blend-image {
+            transform: scale(1.03);
+        }
+        
+        .image-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(13, 71, 161, 0.7) 0%,
+                rgba(13, 71, 161, 0.4) 30%,
+                rgba(13, 71, 161, 0.1) 50%,
+                transparent 70%
+            );
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .image-light-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                transparent 40%
+            );
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .hospital-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 18px 24px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            max-width: 420px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .hospital-badge:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .badge-content {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        
+        .badge-icon {
+            font-size: 36px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .badge-text {
+            flex: 1;
+        }
+        
+        .badge-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: white;
+            letter-spacing: 0.3px;
+        }
+        
+        .badge-subtitle {
+            font-size: 14px;
+            opacity: 0.95;
+            color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .welcome-section h1 {
+            margin: 0 0 25px 0;
+            font-size: 3.2em;
+            font-weight: 800;
+            line-height: 1.15;
+            background: linear-gradient(to right, #ffffff 0%, #e3f2fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(0, 40, 85, 0.2);
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.4em;
+            opacity: 0.95;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.98);
+            max-width: 700px;
+        }
+        
+        .welcome-stats {
+            display: flex;
+            gap: 35px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 16px;
+            min-width: 140px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.6em;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-label {
+            font-size: 15px;
+            opacity: 0.95;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+        }
+        
+        .welcome-description {
+            font-size: 1.15em;
+            opacity: 0.95;
+            max-width: 750px;
+            line-height: 1.8;
+            font-weight: 300;
+            margin: 40px 0 0 0;
+            color: rgba(255, 255, 255, 0.98);
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            border-left: 4px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        @media (max-width: 1100px) {
+            .welcome-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 50px;
+            }
+            
+            .welcome-image {
+                flex: 0 0 auto;
+                max-width: 600px;
+                width: 100%;
+                margin: 0 auto;
+            }
+            
+            .hospital-badge {
+                margin: 0 auto 35px;
+            }
+            
+            .welcome-stats {
+                justify-content: center;
+            }
+            
+            .welcome-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .image-blend-container {
+                height: 450px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .welcome-section {
+                padding: 50px 25px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2.4em;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1.2em;
+            }
+            
+            .welcome-stats {
+                gap: 20px;
+            }
+            
+            .stat-item {
+                flex: 1;
+                min-width: 120px;
+                padding: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.2em;
+            }
+            
+            .image-blend-container {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-item {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .welcome-image {
+                display: none;
+            }
+        }
+        
+        .hospital-badge {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .badge-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .badge-icon {
+            font-size: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .badge-text {
+            flex: 1;
+        }
+        
+        .badge-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 3px;
+            color: white;
+        }
+        
+        .badge-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .welcome-section h1 {
+            margin: 0 0 20px 0;
+            font-size: 3em;
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(to right, #ffffff 0%, #e3f2fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .welcome-stats {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 120px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .welcome-description {
+            font-size: 1.1em;
+            opacity: 0.9;
+            max-width: 800px;
+            line-height: 1.7;
+            font-weight: 300;
+            margin: 30px 0 0 0;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .image-container {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-container:hover {
+            transform: translateY(-10px);
+        }
+        
+        .doctor-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 40, 85, 0.9), transparent);
+            padding: 30px 25px 20px;
+        }
+        
+        .overlay-text {
+            text-align: center;
+        }
+        
+        .overlay-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 5px;
+        }
+        
+        .overlay-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .feature-card {
+            background: var(--white);
+            padding: 35px 30px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--medium-gray);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 40, 85, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 25px;
+            display: inline-block;
+            padding: 20px;
+            border-radius: 50%;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+        }
+        
+        .feature-card h3 {
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .feature-card p {
+            color: var(--dark-gray);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .auth-tab {
+            padding: 12px 30px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            color: var(--dark-gray);
+            transition: all 0.2s ease;
+        }
+        
+        .auth-tab.active {
+            border-bottom-color: var(--primary-blue);
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+        
+        .auth-tab:hover {
+            color: var(--primary-blue);
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .alert {
+            padding: 16px 20px;
+            border-radius: 6px;
+            margin: 15px 0;
+            display: none;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .alert-success {
+            background: #e8f5e9;
+            color: var(--success-green);
+            border: 1px solid #c8e6c9;
+        }
+        
+        .alert-error {
+            background: #ffebee;
+            color: var(--cancelled);
+            border: 1px solid #ffcdd2;
+        }
+        
+        .appointment-card {
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-blue);
+            background: var(--light-gray);
+            transition: all 0.2s ease;
+        }
+        
+        .appointment-card:hover {
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(0, 40, 85, 0.1);
+        }
+        
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .appointment-hospital {
+            font-weight: 600;
+            color: var(--dark-blue);
+            font-size: 16px;
+        }
+        
+        .appointment-status {
+            font-size: 11px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: white;
+        }
+        
+        .appointment-details {
+            font-size: 13px;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .appointment-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn-small {
+            background: #546e7a;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .btn-small:hover {
+            background: #455a64;
+        }
+        
+        .btn-cancel {
+            background: var(--cancelled);
+        }
+        
+        .btn-cancel:hover {
+            background: #b71c1c;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .medical-hint {
+            font-size: 13px;
+            color: var(--dark-gray);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: var(--light-gray);
+            border-radius: 6px;
+            border-left: 3px solid var(--primary-blue);
+        }
+        
+        #logged-in-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        #username-display {
+            color: var(--dark-blue);
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 1100px) {
+            .welcome-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .welcome-image {
+                flex: 0 0 auto;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            
+            .hospital-badge {
+                margin: 0 auto 30px;
+            }
+            
+            .welcome-stats {
+                justify-content: center;
+            }
+            
+            .welcome-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .welcome-section {
+                padding: 40px 20px;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2.2em;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1.1em;
+            }
+            
+            .welcome-stats {
+                gap: 15px;
+            }
+            
+            .stat-item {
+                flex: 1;
+                min-width: 100px;
+                padding: 15px;
+            }
+            
+            .stat-number {
+                font-size: 1.8em;
+            }
+            
+            .doctor-image {
+                height: 350px;
+            }
+            
+            .grid-2col {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .flex-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .btn-oval, .btn-oval-logout {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stat-item {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .welcome-image {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="logo">CureMed</div>
-</nav>
-
-<div class="welcome-section">
-    <div class="welcome-content">
-        <div class="welcome-text">
-            <h1>Intelligent Medical Routing System</h1>
-            <p>Describe your symptoms for specialized hospital triage in Astana.</p>
+<div id="auth-modal">
+    <div class="card" style="width: 420px; max-width: 90vw; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+        <div style="text-align: center; margin-bottom: 25px;">
+            <h2 style="margin: 0 0 8px 0; color: var(--dark-blue);">Medical Portal Access</h2>
+            <p style="color: var(--dark-gray); margin: 0; font-size: 14px;">Login or register to manage medical appointments</p>
         </div>
-        <div class="welcome-image">
-            <img src="color.png" alt="Doctor" class="doctor-image">
+        
+        <div class="auth-tabs">
+            <div class="auth-tab active" id="login-tab" onclick="switchAuthTab('login')">Patient Login</div>
+            <div class="auth-tab" id="register-tab" onclick="switchAuthTab('register')">New Registration</div>
         </div>
+        
+        <div id="auth-alert" class="alert" style="display: none;"></div>
+        
+        <div id="login-form">
+            <div class="form-label">Email Address</div>
+            <input type="email" id="login-email" placeholder="patient@example.com" value="yourmail@.com">
+            
+            <div class="form-label">Password</div>
+            <input type="password" id="login-password" placeholder="Enter your password" value="***">
+            
+            <button class="btn" onclick="handleLogin()" style="width: 100%; margin-top: 20px;">
+                Sign In to Medical Portal
+            </button>
+          
+        </div>
+        
+        <div id="register-form" style="display: none;">
+            <div class="form-label">Full Name</div>
+            <input type="text" id="register-username" placeholder="Enter your full name">
+            
+            <div class="form-label">Email Address</div>
+            <input type="email" id="register-email" placeholder="patient@example.com">
+            
+            <div class="form-label">Password (minimum 6 characters)</div>
+            <input type="password" id="register-password" placeholder="Create a secure password">
+            
+            <button class="btn" onclick="handleRegister()" style="width: 100%; margin-top: 20px;">
+                Create Medical Account
+            </button>
+        </div>
+        
+        <button onclick="closeAuthModal()" style="background: none; border: none; color: var(--dark-gray); cursor: pointer; margin-top: 25px; width: 100%; padding: 12px; font-size: 14px; border-top: 1px solid var(--medium-gray);">
+            ← Return to Symptom Assessment
+        </button>
     </div>
 </div>
 
-<div class="main-content">
-    <div class="grid-2col">
-        <div class="card">
-            <h2>Symptom Assessment</h2>
-            <textarea id="symptom-input" rows="4" placeholder="Describe how you feel (e.g., 'I have chest pain and shortness of breath')"></textarea>
-            <button class="btn" onclick="analyzeSymptoms()">Analyze & Find Hospital</button>
-            
-            <div id="ai-badge" class="medical-badge">
-                <strong>Recommendation:</strong>
-                <div id="diagnosis-content"></div>
+<div id="app-content">
+    <nav>
+        <div class="logo">
+            CureMed
+        </div>
+        <div id="user-display">
+            <button id="login-btn" onclick="openAuthModal()" class="btn-oval">
+                Patient Login
+            </button>
+            <div id="logged-in-user" style="display: none;">
+                <span id="username-display"></span>
+                <button onclick="logout()" class="btn-oval-logout">
+                    Logout
+                </button>
             </div>
         </div>
+    </nav>
 
-        <div class="card">
-            <h2>Hospital Locations - Astana</h2>
-            <div id="map"></div>
+    <div class="welcome-section">
+        <div class="welcome-content">
+            <div class="welcome-text">
+                <h1>Intelligent Medical Routing System</h1>
+                <p class="welcome-subtitle">Pushing the boundaries of what's possible in hospital triage and patient care</p>
+                <p class="welcome-description">
+                    Describe your medical symptoms for specialized hospital triage and seamless 
+                    appointment scheduling in Astana! 
+                </p>
+            </div>
+            
+            <div class="welcome-image">
+                <div class="image-container">
+                    <img src="color.png" 
+                         alt="Medical Professional" 
+                         class="doctor-image">
+                    <div class="image-overlay">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="app-alert" class="alert" style="display: none;"></div>
+
+        <div class="grid-2col">
+            <div>
+                <div class="card">
+                    <h2>Medical Symptom Assessment</h2>
+                    
+                    <div class="form-label">Describe Your Symptoms</div>
+                    <textarea 
+                        id="symptom-input" 
+                        rows="4" 
+                        placeholder="Example: Persistent chest pain for 2 hours, or: my child has fever"
+                    ></textarea>
+                    
+                    <div class="medical-hint">
+                        Include all your Symptoms
+                    </div>
+                    
+                    <button class="btn" onclick="analyzeSymptoms()">
+                        Analyze Symptoms & Find Hospital
+                    </button>
+                    
+                    <div id="ai-badge" class="medical-badge">
+                        <div class="medical-badge-header">Medical Recommendation</div>
+                        <div id="diagnosis-content"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Schedule Medical Appointment</h2>
+                    <p style="color: var(--dark-gray); margin-bottom: 25px; line-height: 1.6;">
+                        Complete patient information to schedule appointment at recommended medical facility
+                    </p>
+                    
+                    <div class="flex-row">
+                        <div>
+                            <div class="form-label">Patient Age</div>
+                            <input type="number" id="pat-age" placeholder="Enter age" min="1" max="120">
+                        </div>
+                        <div>
+                            <div class="form-label">Patient Gender</div>
+                            <select id="pat-gender">
+                                <option value="">Select gender</option>
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-label">Recommended Medical Facility</div>
+                    <select id="hospital-select">
+                        <option value="">Select hospital (based on symptom assessment)</option>
+                        <option value="City Multidisciplinary Hospital #1">City Multidisciplinary Hospital #1</option>
+                        <option value="National Scientific Cardiac Surgery Center">National Scientific Cardiac Surgery Center</option>
+                        <option value="National Institute of Traumatology and Orthopedics">National Institute of Traumatology and Orthopedics</option>
+                        <option value="UMC Mother and Child Health Center">UMC Mother and Child Health Center</option>
+                        <option value="City Infectious Disease Hospital">City Infectious Disease Hospital</option>
+                        <option value="Astana Vision Institute">Astana Vision Institute</option>
+                        <option value="City Dental Clinic">City Dental Clinic</option>
+                        <option value="National Scientific Center for Oncology and Transplantology">National Scientific Center for Oncology and Transplantology</option>
+                    </select>
+                    
+                    <button class="btn" onclick="attemptBooking()" style="width: 100%; margin-top: 25px;">
+                        Book Medical Appointment
+                    </button>
+                    
+                    <p style="font-size: 13px; color: var(--dark-gray); margin-top: 20px; text-align: center; padding: 15px; border-top: 1px solid var(--medium-gray);">
+                        Secure authentication required for appointment scheduling. Login or Register to book an appointment.
+                    </p>
+                </div>
+            </div>
+            <div>
+                <div class="card">
+                    <h2>Medical Facility Location Map</h2>
+                    <div id="map">
+                        <div class="map-placeholder" id="map-placeholder">
+                            <div style="font-size: 48px;">📍</div>
+                            <div>Enter symptoms to view recommended medical facility location</div>
+                        </div>
+                    </div>
+                    <div id="map-info" style="margin-top:15px; font-size:14px; color:var(--dark-gray); text-align:center;"></div>
+                </div>
+
+                <div class="card" id="status-board-card" style="display: none;">
+                    <h2>My Medical Appointments</h2>
+                    <div id="status-board">
+                        <div style="text-align: center; padding: 40px 20px; color: var(--dark-gray);">
+                            <div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">📋</div>
+                            <p style="font-size: 16px; margin-bottom: 8px;">No scheduled appointments</p>
+                            <p style="font-size: 14px; opacity: 0.7;">Schedule your first appointment above</p>
+                        </div>
+                    </div>
+                    <button onclick="loadAppointments()" style="width: 100%; padding: 12px; background: var(--light-gray); border: 1px solid var(--medium-gray); border-radius: 6px; cursor: pointer; font-size: 14px; color: var(--dark-blue); margin-top: 15px;">
+                        Refresh Appointment List
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    const API_URL = "https://curemed-backend.onrender.com/api";
+    const API_BASE_URL = 'https://curemed-backend.onrender.com';
+    let userToken = localStorage.getItem('token') || '';
+    let activeUser = localStorage.getItem('username') || '';
+    let userId = localStorage.getItem('userId') || '';
+    let map = null;
+    let currentMarker = null;
+    let mapInitialized = false;
 
-    // 1. ANALYZE SYMPTOMS FUNCTION
-    async function analyzeSymptoms() {
-        const symptoms = document.getElementById('symptom-input').value;
-        const badge = document.getElementById('ai-badge');
-        const content = document.getElementById('diagnosis-content');
+    document.addEventListener('DOMContentLoaded', function() {
+        updateUserDisplay();
+        // initGoogleMap will be called by Google Maps API callback
+        if (userToken) {
+            loadAppointments();
+        }
+        
+        document.getElementById('login-password')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') handleLogin();
+        });
+        document.getElementById('register-password')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') handleRegister();
+        });
+        
+        document.getElementById('symptom-input')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                analyzeSymptoms();
+            }
+        });
+    });
 
-        if (!symptoms) return alert("Please describe your symptoms first.");
+    // ADDED THE GOOGLE MAPS INITIALIZATION CODE HERE
+    function initGoogleMap() {
+        if (typeof google === 'undefined') {
+            console.error('Google Maps API failed to load');
+            document.getElementById('map-placeholder').innerHTML = 
+                '<div style="font-size: 48px;">⚠️</div>' +
+                '<div>Map service temporarily unavailable</div>';
+            return;
+        }
+        
+        // Center of Astana
+        const astana = { lat: 51.1694, lng: 71.4491 };
+        
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 12,
+            center: astana,
+            styles: [
+                {
+                    "featureType": "all",
+                    "elementType": "geometry.fill",
+                    "stylers": [{ "weight": "2.00" }]
+                }
+            ],
+            mapTypeControl: true,
+            streetViewControl: false,
+            fullscreenControl: true
+        });
 
+        mapInitialized = true;
+
+        // Example Marker for a Hospital
+        new google.maps.Marker({
+            position: { lat: 51.1283, lng: 71.4305 },
+            map: map,
+            title: "City Hospital #1"
+        });
+
+        // Add a default marker for Astana medical district
+        new google.maps.Marker({
+            position: astana,
+            map: map,
+            title: "Astana Medical District",
+            icon: {
+                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+            }
+        });
+    }
+    
+    function updateMap(coords, hospitalName) {
+        if (!mapInitialized || !map) {
+            console.error('Map not initialized');
+            return;
+        }
+        
+        if (currentMarker) {
+            currentMarker.setMap(null);
+        }
+        
+        currentMarker = new google.maps.Marker({
+            position: coords,
+            map: map,
+            title: hospitalName,
+            animation: google.maps.Animation.DROP,
+            icon: {
+                url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+            }
+        });
+        
+        map.setCenter(coords);
+        map.setZoom(14);
+        
+        document.getElementById('map-info').innerHTML = 
+            `<strong>📍 ${hospitalName}</strong> - Recommended medical facility location`;
+        
+        const infoWindow = new google.maps.InfoWindow({
+            content: `
+                <div style="padding: 15px; max-width: 250px;">
+                    <div style="font-size: 16px; font-weight: 600; color: var(--dark-blue); margin-bottom: 8px;">${hospitalName}</div>
+                    <div style="font-size: 13px; color: var(--dark-gray); margin-bottom: 10px;">Recommended facility based on medical assessment</div>
+                </div>
+            `
+        });
+        
+        currentMarker.addListener('click', () => {
+            infoWindow.open(map, currentMarker);
+        });
+        
+        infoWindow.open(map, currentMarker);
+    }
+
+    function openAuthModal() {
+        document.getElementById('auth-modal').style.display = 'flex';
+        document.getElementById('auth-alert').style.display = 'none';
+    }
+    
+    function closeAuthModal() {
+        document.getElementById('auth-modal').style.display = 'none';
+        resetAuthForms();
+    }
+    
+    function switchAuthTab(tab) {
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        
+        if (tab === 'login') {
+            loginTab.classList.add('active');
+            registerTab.classList.remove('active');
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        } else {
+            loginTab.classList.remove('active');
+            registerTab.classList.add('active');
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        }
+        document.getElementById('auth-alert').style.display = 'none';
+    }
+    
+    function resetAuthForms() {
+        document.getElementById('login-email').value = '';
+        document.getElementById('login-password').value = '';
+        document.getElementById('register-username').value = '';
+        document.getElementById('register-email').value = '';
+        document.getElementById('register-password').value = '';
+        document.getElementById('auth-alert').style.display = 'none';
+    }
+    
+    async function handleLogin() {
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value.trim();
+        const alertDiv = document.getElementById('auth-alert');
+        
+        if (!email || !password) {
+            showAlert(alertDiv, 'Please enter both email and password', 'error');
+            return;
+        }
+        
         try {
-            const response = await fetch(`${API_URL}/analyze`, {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                userToken = data.token;
+                activeUser = data.username;
+                userId = data.userId;
+                
+                localStorage.setItem('token', userToken);
+                localStorage.setItem('username', activeUser);
+                localStorage.setItem('userId', userId);
+                
+                showAlert(alertDiv, 'Login successful! Redirecting...', 'success');
+                setTimeout(() => {
+                    closeAuthModal();
+                    updateUserDisplay();
+                    loadAppointments();
+                }, 1000);
+            } else {
+                showAlert(alertDiv, data.error || 'Login failed. Please check credentials.', 'error');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            showAlert(alertDiv, 'Medical server connection failed. Please try again.', 'error');
+        }
+    }
+    
+    async function handleRegister() {
+        const username = document.getElementById('register-username').value.trim();
+        const email = document.getElementById('register-email').value.trim();
+        const password = document.getElementById('register-password').value.trim();
+        const alertDiv = document.getElementById('auth-alert');
+        
+        if (!username || !email || !password) {
+            showAlert(alertDiv, 'Please complete all registration fields', 'error');
+            return;
+        }
+        
+        if (password.length < 6) {
+            showAlert(alertDiv, 'Password must be at least 6 characters for security', 'error');
+            return;
+        }
+        
+        if (!email.includes('@') || !email.includes('.')) {
+            showAlert(alertDiv, 'Please enter a valid email address', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                showAlert(alertDiv, 'Medical account created successfully! You can now login.', 'success');
+                setTimeout(() => {
+                    switchAuthTab('login');
+                    document.getElementById('login-email').value = email;
+                    document.getElementById('login-password').value = '';
+                }, 1500);
+            } else {
+                showAlert(alertDiv, data.error || 'Registration failed. Email may already exist.', 'error');
+            }
+        } catch (error) {
+            console.error('Register error:', error);
+            showAlert(alertDiv, 'Server connection failed. Please check your connection.', 'error');
+        }
+    }
+    
+    function logout() {
+        if (confirm('Are you sure you want to logout from your medical account?')) {
+            userToken = '';
+            activeUser = '';
+            userId = '';
+            localStorage.removeItem('token');
+            localStorage.removeItem('username');
+            localStorage.removeItem('userId');
+            updateUserDisplay();
+            showAppAlert('Logged out from medical portal successfully', 'success');
+        }
+    }
+    
+    function updateUserDisplay() {
+        const loginBtn = document.getElementById('login-btn');
+        const loggedInUser = document.getElementById('logged-in-user');
+        const usernameDisplay = document.getElementById('username-display');
+        const statusBoardCard = document.getElementById('status-board-card');
+        const infoCard = document.getElementById('info-card');
+        
+        if (userToken && activeUser) {
+            loginBtn.style.display = 'none';
+            loggedInUser.style.display = 'flex';
+            usernameDisplay.textContent = `Welcome, ${activeUser}`;
+            statusBoardCard.style.display = 'block';
+            infoCard.style.display = 'none';
+        } else {
+            loginBtn.style.display = 'block';
+            loggedInUser.style.display = 'none';
+            statusBoardCard.style.display = 'none';
+            infoCard.style.display = 'block';
+        }
+    }
+
+    async function analyzeSymptoms() {
+        const symptoms = document.getElementById('symptom-input').value.trim();
+        const aiBadge = document.getElementById('ai-badge');
+        const diagnosisContent = document.getElementById('diagnosis-content');
+        
+        try {
+            const response = await fetch('/api/resource/diagnose', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ symptoms })
             });
-            const data = await response.json();
             
-            badge.style.display = 'block';
-            content.innerText = data.recommendation || "We recommend visiting the nearest general hospital for evaluation.";
-        } catch (err) {
-            console.error(err);
-            alert("Error connecting to server.");
+            const data = await response.json();
+        
+            if (response.ok && data.success) {
+                diagnosisContent.innerHTML = `
+                    <div style="font-size: 18px; font-weight: 600; color: var(--dark-blue); text-align: center;">
+                        ${data.hospitalName}
+                    </div>
+                `;
+                aiBadge.style.display = 'block';
+                
+                document.getElementById('hospital-select').value = data.hospitalName;
+                
+                if (data.coords && mapInitialized) {
+                    updateMap(data.coords, data.hospitalName);
+                }
+            } else {
+                diagnosisContent.innerHTML = `<div style="color: var(--cancelled); text-align: center;">${data.error || 'Failed'}</div>`;
+                aiBadge.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Assessment error:', error);
+            diagnosisContent.innerHTML = '<div style="color: var(--cancelled); text-align: center;">Connection error</div>';
+            aiBadge.style.display = 'block';
         }
     }
 
-    // 2. GOOGLE MAPS INIT
-    let map;
-    function initMap() {
-        const astana = { lat: 51.1605, lng: 71.4704 };
-        map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 12,
-            center: astana,
-        });
-
-        const hospitals = [
-            { name: "City Hospital #1", pos: { lat: 51.1283, lng: 71.4305 } },
-            { name: "National Cardiac Center", pos: { lat: 51.1075, lng: 71.4082 } },
-            { name: "Mother and Child Center", pos: { lat: 51.1032, lng: 71.4161 } }
-        ];
-
-        hospitals.forEach(hosp => {
-            new google.maps.Marker({
-                position: hosp.pos,
-                map: map,
-                title: hosp.name
-            });
-        });
+    function attemptBooking() {
+        if (!userToken) {
+            showAppAlert('Authentication required. Please login to schedule medical appointments.', 'error');
+            openAuthModal();
+            return;
+        }
+        bookAppointment();
     }
+    
+    async function bookAppointment() {
+        const hospitalName = document.getElementById('hospital-select').value;
+        const age = document.getElementById('pat-age').value;
+        const gender = document.getElementById('pat-gender').value;
+        const symptoms = document.getElementById('symptom-input').value.trim() || 'Not specified in booking';
+        
+        if (!hospitalName) {
+            showAppAlert('Please select a medical facility for appointment', 'error');
+            return;
+        }
+        if (!age || age < 1 || age > 120) {
+            showAppAlert('Please enter a valid patient age (1-120 years)', 'error');
+            return;
+        }
+        if (!gender) {
+            showAppAlert('Please select patient gender for medical records', 'error');
+            return;
+        }
+        
+        const appointmentData = {
+            hospitalName,
+            age: parseInt(age),
+            gender,
+            symptoms: symptoms.substring(0, 500) 
+        };
+        
+        showAppAlert('Scheduling medical appointment...', 'success');
+        
+        try {
+            const response = await fetch('/api/resource', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(appointmentData)
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                showAppAlert('✅ Medical appointment scheduled successfully! Saved to medical records.', 'success');
+                
+                document.getElementById('pat-age').value = '';
+                document.getElementById('pat-gender').value = '';
+                document.getElementById('symptom-input').value = '';
+                document.getElementById('ai-badge').style.display = 'none';
+                
+                loadAppointments();
+                
+                document.getElementById('hospital-select').selectedIndex = 0;
+            } else {
+                showAppAlert(data.error || 'Appointment scheduling failed', 'error');
+            }
+        } catch (error) {
+            console.error('Booking error:', error);
+            showAppAlert('Could not connect to medical server. Please check connection.', 'error');
+        }
+    }
+    
+    async function loadAppointments() {
+        if (!userToken) {
+            document.getElementById('status-board').innerHTML = 
+                '<div style="text-align: center; padding: 40px 20px; color: var(--dark-gray);">' +
+                '<div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">🔒</div>' +
+                '<p>Authentication required to view medical appointments</p>' +
+                '</div>';
+            return;
+        }
+        
+        const statusBoard = document.getElementById('status-board');
+        statusBoard.innerHTML = '<div style="text-align: center; padding: 40px 20px;"><div class="spinner"></div><p style="margin-top: 15px; color: var(--dark-gray);">Loading medical appointments...</p></div>';
+        
+        try {
+            const response = await fetch('/api/resource', {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                const appointments = data.appointments || [];
+                
+                if (appointments.length === 0) {
+                    statusBoard.innerHTML = 
+                        '<div style="text-align: center; padding: 50px 20px; color: var(--dark-gray);">' +
+                        '<div style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;">📋</div>' +
+                        '<p style="font-size: 16px; margin-bottom: 8px;">No scheduled medical appointments</p>' +
+                        '<p style="font-size: 14px; opacity: 0.7;">Schedule your first appointment above</p>' +
+                        '</div>';
+                    return;
+                }
+                
+                statusBoard.innerHTML = appointments.map(app => {
+                    const statusColor = getStatusColor(app.status);
+                    return `
+                    <div class="appointment-card">
+                        <div class="appointment-header">
+                            <div class="appointment-hospital">${app.hospitalName}</div>
+                            <div class="appointment-status" style="background: ${statusColor};">${app.status || 'Pending'}</div>
+                        </div>
+                        <div class="appointment-details">
+                            <div>📅 ${new Date(app.appointmentDate).toLocaleDateString('en-GB', { 
+                                day: '2-digit', 
+                                month: 'short', 
+                                year: 'numeric' 
+                            })} at ${app.appointmentTime || '09:00'}</div>
+                            <div>👤 ${app.age} years, ${app.gender}</div>
+                            ${app.symptoms ? `<div style="margin-top: 8px;">📝 <strong>Symptoms:</strong> ${app.symptoms.substring(0, 80)}${app.symptoms.length > 80 ? '...' : ''}</div>` : ''}
+                        </div>
+                        <div class="appointment-actions">
+                            <button onclick="cancelAppointment('${app._id}')" class="btn-small btn-cancel">
+                                Cancel Appointment
+                            </button>
+                            <button onclick="viewAppointment('${app._id}')" class="btn-small">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                `}).join('');
+            } else {
+                statusBoard.innerHTML = 
+                    '<div style="text-align: center; padding: 40px 20px; color: var(--cancelled);">' +
+                    '<div style="font-size: 48px; margin-bottom: 15px;">⚠️</div>' +
+                    '<p>Failed to load medical appointments</p>' +
+                    '</div>';
+            }
+        } catch (error) {
+            console.error('Load appointments error:', error);
+            statusBoard.innerHTML = 
+                '<div style="text-align: center; padding: 40px 20px; color: var(--cancelled);">' +
+                '<div style="font-size: 48px; margin-bottom: 15px;">🔌</div>' +
+                '<p>Connection error. Medical server unavailable.</p>' +
+                '</div>';
+        }
+    }
+    
+    async function cancelAppointment(appointmentId) {
+        if (!confirm('Are you sure you want to cancel this medical appointment? This action cannot be undone.')) return;
+        
+        if (!userToken) {
+            showAppAlert('Authentication required', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/resource/${appointmentId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                showAppAlert('Medical appointment cancelled successfully', 'success');
+                loadAppointments();
+            } else {
+                showAppAlert(data.error || 'Cancellation failed', 'error');
+            }
+        } catch (error) {
+            console.error('Cancel error:', error);
+            showAppAlert('Cancellation failed. Please try again.', 'error');
+        }
+    }
+    
+    function viewAppointment(appointmentId) {
+        alert('Detailed appointment view would show comprehensive medical information here.\n\nAppointment ID: ' + appointmentId + '\n\nFeature includes: Full medical notes, doctor details, preparation instructions, and facility contact information.');
+    }
+    
+    function getStatusColor(status) {
+        const colors = {
+            'Waiting': 'var(--waiting)',
+            'Confirmed': 'var(--confirmed)',
+            'Completed': 'var(--completed)',
+            'Cancelled': 'var(--cancelled)',
+            'Pending': 'var(--waiting)'
+        };
+        return colors[status] || '#546e7a';
+    }
+
+    function showAlert(element, message, type) {
+        element.textContent = message;
+        element.className = `alert alert-${type}`;
+        element.style.display = 'block';
+        
+        if (type === 'success') {
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 4000);
+        }
+    }
+    
+    function showAppAlert(message, type) {
+        const alertDiv = document.getElementById('app-alert');
+        showAlert(alertDiv, message, type);
+    }
+    
+    window.openAuthModal = openAuthModal;
+    window.closeAuthModal = closeAuthModal;
+    window.switchAuthTab = switchAuthTab;
+    window.handleLogin = handleLogin;
+    window.handleRegister = handleRegister;
+    window.logout = logout;
+    window.analyzeSymptoms = analyzeSymptoms;
+    window.attemptBooking = attemptBooking;
+    window.bookAppointment = bookAppointment;
+    window.loadAppointments = loadAppointments;
+    window.cancelAppointment = cancelAppointment;
+    window.viewAppointment = viewAppointment;
+
 </script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvo8-Lfuzl8OUvbopQaLwiveBMQrdgPj8&callback=initMap" async defer></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvo8-Lfuzl8OUvbopQaLwiveBMQrdgPj8&callback=initGoogleMap" async defer></script>
 </body>
 </html>
